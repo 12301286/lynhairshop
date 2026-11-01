@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SalonOS | 1인 미용실 스마트 CRM & AI 포트폴리오</title>
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root[data-theme="dark"] {
+      --bg-main: #0b0f19;
+      --bg-sub: #111827;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #38bdf8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --nav-bg: rgba(11, 15, 25, 0.85);
+    }
+
+    :root[data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-sub: #f1f5f9;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: rgba(15, 23, 42, 0.1);
+      --primary: #4f46e5;
+      --primary-glow: rgba(79, 70, 229, 0.2);
+      --accent: #0284c7;
+      --success: #059669;
+      --warning: #d97706;
+      --nav-bg: rgba(248, 250, 252, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.65;
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header & Nav */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .brand {
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-menu a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-menu a:hover, .nav-menu a.active {
+      color: var(--accent);
+    }
+
+    .theme-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 150px 0 90px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--primary-glow);
+      border: 1px solid var(--primary);
+      border-radius: 999px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 3.1rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-btns {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 20px var(--primary-glow);
+      transition: transform 0.2s, background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #4f46e5;
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      color: var(--text-main);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-color);
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+    }
+
+    /* Section Defaults */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* Cards & Grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--primary-glow);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Interactive Demo Dashboard */
+    .demo-wrapper {
+      background: var(--bg-sub);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .demo-tabs {
+      display: flex;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 20px;
+      overflow-x: auto;
+    }
+
+    .demo-tab {
+      padding: 18px 24px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .demo-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .demo-content {
+      padding: 32px;
+      display: none;
+    }
+
+    .demo-content.active {
+      display: block;
+    }
+
+    /* Dashboard Stats & Chart */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-box {
+      background: var(--bg-card);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .kpi-box span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-box h4 {
+      font-size: 1.6rem;
+      margin-top: 6px;
+      color: var(--text-main);
+    }
+
+    .kpi-trend {
+      font-size: 0.8rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* CRM Search Table */
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .crm-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .crm-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 18px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .crm-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: var(--primary-glow);
+      color: var(--accent);
+    }
+
+    /* SMS Preview */
+    .sms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .phone-mockup {
+      background: #000;
+      border: 6px solid #334155;
+      border-radius: 32px;
+      padding: 24px 18px;
+      max-width: 340px;
+      margin: 0 auto;
+      color: #fff;
+    }
+
+    .sms-bubble {
+      background: #fee500;
+      color: #191919;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* Roadmap Timeline */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px;
+      position: relative;
+    }
+
+    .step-card.current {
+      border-color: var(--accent);
+      box-shadow: 0 0 25px var(--primary-glow);
+    }
+
+    .step-week {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .step-card h4 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .step-card ul {
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+
+    .step-card ul li {
+      margin-bottom: 6px;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .step-card ul li::before {
+      content: "•";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .nav-menu { display: none; }
+      .sms-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-bar">
+      <div class="brand">
+        <i class="fa-solid fa-Scissors"></i> SalonOS Portfolio
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#vision">기획배경</a></li>
+        <li><a href="#demo">인터랙티브 데모</a></li>
+        <li><a href="#architecture">기술아키텍처</a></li>
+        <li><a href="#roadmap">개발일정(8~15주)</a></li>
+      </ul>
+      <button class="theme-btn" id="themeToggle">
+        <i class="fa-solid fa-moon"></i> <span>테마 전환</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero container">
+    <div class="hero-badge">
+      <i class="fa-solid fa-microchip"></i> AI & Web Application Project
+    </div>
+    <h1>
+      1인 미용실의 운영 혁신,<br>
+      <span class="gradient-text">데이터 기반 스마트 CRM 솔루션</span>
+    </h1>
+    <p>
+      고정비 지출을 줄이고 세밀한 고객 시술 레시피 관리, 매출 시각화, 노쇼 방지 자동 알림 및 프라이빗 시술 포토 로그를 제공하는 1인 샵 맞춤형 웹 플랫폼입니다.
+    </p>
+    <div class="hero-btns">
+      <a href="#demo" class="btn-primary"><i class="fa-solid fa-play"></i> 프로토타입 데모 체험</a>
+      <a href="#roadmap" class="btn-outline"><i class="fa-solid fa-calendar-check"></i> 주차별 개발 계획서</a>
+    </div>
+  </section>
+
+  <!-- 1. 기획 배경 및 핵심 가치 -->
+  <section id="vision" class="container">
+    <div class="section-header">
+      <span class="section-tag">Project Background</span>
+      <h2 class="section-title">왜 1인 미용실 전용 시스템인가?</h2>
+      <p class="section-desc">실제 배우자가 운영하는 1인 미용실 현장의 페인포인트(Pain Point)를 분석하여 기획했습니다.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon-box"><i class="fa-solid fa-coins"></i></div>
+        <h3>월 고정비 절감 및 경량화</h3>
+        <p>대형 프랜차이즈 중심의 무겁고 비싼 월 구독형 CRM 대신, 1인 원장님에게 꼭 필요한 핵심 기능만 담아 유지 비용을 0원으로 절감합니다.</p>
+      </div>
+      <div class="card">
+        <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
+        <h3>세분화된 시술 레시피 기록</h3>
+        <p>고객별 모발 손상도, 염모제 배합 비율(예: 8-11 + 6%), 롯드 호수, 열처리 시간을 정밀 기록하고 시술 전/후 사진을 프라이빗하게 공유합니다.</p>
+      </div>
+      <div class="card">
+        <div class="icon-box"><i class="fa-solid fa-share-nodes"></i></div>
+        <h3>외부 채널 연동 및 SaaS 확장</h3>
+        <p>네이버 예약 동기화, D-1 안내 문자 자동 발송, 인스타그램 시술 영상 피드 연동을 지원하며 향후 타 1인 샵 대상 SaaS 모델을 지향합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 인터랙티브 프로토타입 데모 -->
+  <section id="demo" class="container">
+    <div class="section-header">
+      <span class="section-tag">Interactive Prototype</span>
+      <h2 class="section-title">핵심 기능 시뮬레이터 (미리보기)</h2>
+      <p class="section-desc">탭을 클릭하여 구현될 핵심 모듈의 동작 방식을 직접 테스트해 보세요.</p>
+    </div>
+
+    <div class="demo-wrapper">
+      <div class="demo-tabs">
+        <button class="demo-tab active" onclick="switchTab('tab-chart', this)">
+          <i class="fa-solid fa-chart-pie"></i> 1. 매출 및 고객 분석 시각화
+        </button>
+        <button class="demo-tab" onclick="switchTab('tab-crm', this)">
+          <i class="fa-solid fa-address-book"></i> 2. 고객 시술 레시피 관리
+        </button>
+        <button class="demo-tab" onclick="switchTab('tab-sms', this)">
+          <i class="fa-solid fa-comment-sms"></i> 3. 예약 D-1 알림 생성기
+        </button>
+        <button class="demo-tab" onclick="switchTab('tab-photo', this)">
+          <i class="fa-solid fa-lock"></i> 4. 프라이빗 포토 로그 & SNS
+        </button>
+      </div>
+
+      <!-- Tab 1: 매출 시각화 -->
+      <div id="tab-chart" class="demo-content active">
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <span>이번 달 누적 매출</span>
+            <h4>6,840,000원</h4>
+            <span class="kpi-trend"><i class="fa-solid fa-arrow-trend-up"></i> 전월 대비 +14.2%</span>
+          </div>
+          <div class="kpi-box">
+            <span>단골 재방문율</span>
+            <h4>86.5%</h4>
+            <span class="kpi-trend">평균 방문 주기 34일</span>
+          </div>
+          <div class="kpi-box">
+            <span>D-1 알림 후 노쇼율</span>
+            <h4>0.8%</h4>
+            <span class="kpi-trend">기존 대비 85% 감소</span>
+          </div>
+        </div>
+        <div style="background: var(--bg-card); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color);">
+          <canvas id="revenueChart" height="100"></canvas>
+        </div>
+      </div>
+
+      <!-- Tab 2: 고객 시술 레시피 검색 -->
+      <div id="tab-crm" class="demo-content">
+        <div class="search-bar">
+          <input type="text" id="crmSearch" class="search-input" placeholder="고객명 또는 시술 키워드 검색 (예: 박지영, 애쉬브라운, 빌드펌)..." onkeyup="filterCRM()">
+        </div>
+        <div class="crm-list" id="crmList">
+          <div class="crm-item">
+            <div>
+              <strong>박지영 고객님</strong> (010-****-3829) · <span style="color:var(--text-muted); font-size:0.85rem;">최근 방문: 2026-10-18</span>
+              <p style="font-size:0.9rem; margin-top:4px;">레시피: <strong>빌드펌 + 뿌리볼륨</strong> (롯드 5, 6호 / 열처리 15분 / 극손상모 케어 앰플 적용)</p>
+            </div>
+            <span class="crm-badge">단골 VIP (12회)</span>
+          </div>
+          <div class="crm-item">
+            <div>
+              <strong>김민수 고객님</strong> (010-****-9102) · <span style="color:var(--text-muted); font-size:0.85rem;">최근 방문: 2026-10-25</span>
+              <p style="font-size:0.9rem; margin-top:4px;">레시피: <strong>맨즈 아이롱 다운펌 + 상고 투블럭 9mm</strong> (두피 민감성 — 저자극 약제 사용)</p>
+            </div>
+            <span class="crm-badge">재방문 (5회)</span>
+          </div>
+          <div class="crm-item">
+            <div>
+              <strong>이수민 고객님</strong> (010-****-4471) · <span style="color:var(--text-muted); font-size:0.85rem;">최근 방문: 2026-10-29</span>
+              <p style="font-size:0.9rem; margin-top:4px;">레시피: <strong>붉은기 없는 애쉬브라운 염색</strong> (밀본 8-11 + 9-10 2:1 배합, 산화제 6%)</p>
+            </div>
+            <span class="crm-badge">신규 고객 (1회)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: D-1 예약 문자 시뮬레이터 -->
+      <div id="tab-sms" class="demo-content">
+        <div class="sms-grid">
+          <div>
+            <h3 style="margin-bottom: 14px;">예약 D-1 안내 메시지 자동화</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">
+              네이버 예약 확정 데이터와 연동하여 방문 하루 전 오전 10시에 맞춤 안내톡을 발송합니다. 아래 입력값을 변경하면 우측 미리보기에 즉시 반영됩니다.
+            </p>
+            <div style="display: grid; gap: 12px;">
+              <input type="text" id="smsName" class="search-input" value="박지영" oninput="updateSMS()" placeholder="고객명">
+              <input type="text" id="smsTime" class="search-input" value="내일(토) 오후 2:00" oninput="updateSMS()" placeholder="예약 일시">
+              <input type="text" id="smsMenu" class="search-input" value="레이어드컷 + 프리미엄 클리닉" oninput="updateSMS()" placeholder="시술 메뉴">
+            </div>
+          </div>
+          <div>
+            <div class="phone-mockup">
+              <div style="font-size: 0.75rem; color: #94a3b8; text-align: center;">알림톡 미리보기 (D-1 발송)</div>
+              <div class="sms-bubble" id="smsPreview"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: 프라이빗 포토 로그 & 인스타 연동 -->
+      <div id="tab-photo" class="demo-content">
+        <div class="grid-3">
+          <div class="card" style="background: var(--bg-main);">
+            <h4><i class="fa-solid fa-user-shield" style="color:var(--accent);"></i> 고객 전용 프라이빗 뷰어</h4>
+            <p style="margin-top:8px;">Supabase RLS(행 단위 보안)와 일회용 인증 링크를 활용하여, 접속한 고객은 <strong>오직 본인의 시술 전/후 사진 변화 기록만</strong> 열람할 수 있습니다.</p>
+          </div>
+          <div class="card" style="background: var(--bg-main);">
+            <h4><i class="fa-brands fa-instagram" style="color:#e1306c;"></i> 인스타그램 시술 영상 연동</h4>
+            <p style="margin-top:8px;">Instagram Graph API를 연동하여 미용실 공식 계정에 업로드된 최신 헤어 시술 릴스(Reels) 영상을 웹사이트에 자동 게시합니다.</p>
+          </div>
+          <div class="card" style="background: var(--bg-main);">
+            <h4><i class="fa-solid fa-calendar-plus" style="color:#03c75a;"></i> 네이버 예약 동기화</h4>
+            <p style="margin-top:8px;">네이버 예약 확정 알림(Webhook/API)을 파싱하여 원장님 전용 대시보드 스케줄표에 빈틈없이 실시간 반영합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 시스템 아키텍처 및 기술 스택 -->
+  <section id="architecture" class="container">
+    <div class="section-header">
+      <span class="section-tag">System Architecture</span>
+      <h2 class="section-title">무료 클라우드 기반 고효율 기술 스택</h2>
+      <p class="section-desc">운영비 부담 없이 엔터프라이즈급 보안과 성능을 보장하는 아키텍처 설계입니다.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>Frontend & Visualization</h3>
+        <p style="margin-top: 8px;">HTML5, CSS3, JavaScript(ES6+) 및 Chart.js를 활용하여 PC와 태블릿, 스마트폰 어디서나 쾌적한 반응형 대시보드를 구현합니다.</p>
+      </div>
+      <div class="card">
+        <h3>Supabase (DB & Storage)</h3>
+        <p style="margin-top: 8px;">PostgreSQL 관계형 DB로 고객·예약 스키마를 구축하고, 비공개 Storage 버킷과 RLS 정책으로 고객 시술 사진을 안전하게 보호합니다.</p>
+      </div>
+      <div class="card">
+        <h3>GitHub Pages & CI/CD</h3>
+        <p style="margin-top: 8px;">체계적인 Git 브랜치 및 커밋 컨벤션을 유지하며, GitHub Pages를 통해 포트폴리오와 기술 문서를 상시 배포합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 주차별 개발 타임라인 (루브릭 평가 기준 완벽 대응) -->
+  <section id="roadmap" class="container">
+    <div class="section-header">
+      <span class="section-tag">Development Timeline</span>
+      <h2 class="section-title">주차별 개발 계획 (8주차 ~ 15주차)</h2>
+      <p class="section-desc">루브릭 평가 기준에 맞추어 단계별 목표와 피드백 보완 일정을 명확히 정의했습니다.</p>
+    </div>
+
+    <div class="roadmap-grid">
+      <div class="step-card current">
+        <span class="step-week">8주차 (현재 완료)</span>
+        <h4>기획 및 템플릿 구축</h4>
+        <ul>
+          <li>요구사항 정의 및 계획서 수립</li>
+          <li>UI 템플릿 선정 및 초기 배포</li>
+          <li>기능 시뮬레이터 프로토타입</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">9 ~ 10주차</span>
+        <h4>DB 설계 및 백엔드 연동</h4>
+        <ul>
+          <li>Supabase 프로젝트 생성</li>
+          <li>고객/시술/예약 테이블 설계</li>
+          <li>RLS 보안 정책 초기 설정</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">11 ~ 12주차</span>
+        <h4>핵심 CRM 및 차트 구현</h4>
+        <ul>
+          <li>고객 레시피 CRUD 기능 연동</li>
+          <li>월별 매출 및 방문 통계 시각화</li>
+          <li>예약 D-1 알림톡 모듈 연동</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">13 ~ 14주차</span>
+        <h4>1차 피드백 보완 및 고도화</h4>
+        <ul>
+          <li>1차 루브릭 피드백 반영 개선</li>
+          <li>프라이빗 포토 로그 뷰어 구현</li>
+          <li>네이버 예약/인스타 연동 테스트</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">15주차</span>
+        <h4>최종 검수 및 결과 제출</h4>
+        <ul>
+          <li>모바일 반응형 UX 최종 점검</li>
+          <li>Git 커밋 히스토리 및 문서 정리</li>
+          <li>루브릭 자율채점 및 최종 제출</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p><strong>SalonOS Portfolio Project</strong> · 인공지능학과 개인 포트폴리오</p>
+      <p style="margin-top: 6px; font-size: 0.82rem;">Hosted on GitHub Pages | Built with HTML5, CSS3, JavaScript & Chart.js</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // 1. 다크/라이트 테마 토글
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      themeToggle.innerHTML = next === 'dark' 
+        ? '<i class="fa-solid fa-moon"></i> <span>테마 전환</span>' 
+        : '<i class="fa-solid fa-sun"></i> <span>테마 전환</span>';
+    });
+
+    // 2. 데모 탭 전환
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('.demo-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.demo-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btnEl.classList.add('active');
+    }
+
+    // 3. 고객 CRM 실시간 필터링
+    function filterCRM() {
+      const query = document.getElementById('crmSearch').value.toLowerCase();
+      const items = document.querySelectorAll('.crm-item');
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(query) ? 'flex' : 'none';
+      });
+    }
+
+    // 4. D-1 예약 안내 문자 실시간 프리뷰
+    function updateSMS() {
+      const name = document.getElementById('smsName').value || '고객';
+      const time = document.getElementById('smsTime').value || '예약 시간';
+      const menu = document.getElementById('smsMenu').value || '시술 항목';
+
+      document.getElementById('smsPreview').innerHTML = `
+        <strong>[1인 헤어살롱 예약 D-1 안내]</strong><br><br>
+        안녕하세요, <strong>${name}</strong> 고객님! 😊<br>
+        내일 예약 일정을 안내해 드립니다.<br><br>
+        • <strong>일시:</strong> ${time}<br>
+        • <strong>시술:</strong> ${menu}<br><br>
+        1인 샵 특성상 한 타임에 한 분만 집중 케어해 드리고 있습니다. 일정 변경은 최소 24시간 전 연락 부탁드립니다. 내일 뵙겠습니다!
+      `;
+    }
+    updateSMS();
+
+    // 5. Chart.js 매출 차트 렌더링
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['5월', '6월', '7월', '8월', '9월', '10월'],
+        datasets: [
+          {
+            label: '월별 매출액 (만원)',
+            data: [520, 560, 540, 610, 598, 684],
+            backgroundColor: 'rgba(99, 102, 241, 0.75)',
+            borderColor: '#6366f1',
+            borderWidth: 1,
+            borderRadius: 6
+          },
+          {
+            label: '단골 재방문 시술 건수',
+            data: [68, 74, 71, 82, 80, 94],
+            type: 'line',
+            borderColor: '#38bdf8',
+            backgroundColor: '#38bdf8',
+            tension: 0.3,
+            yAxisID: 'y'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#94a3b8' } }
+        },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
