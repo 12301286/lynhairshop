@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="dark">
+<html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,34 +12,38 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    /* 기본 테마: 밝은 화이트 & 소프트 그레이 톤 */
+    :root[data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-sub: #f1f5f9;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-glow: rgba(79, 70, 229, 0.12);
+      --accent: #0284c7;
+      --success: #059669;
+      --insta: #e1306c;
+      --nav-bg: rgba(255, 255, 255, 0.9);
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    /* 보조 테마: 다크 모드 (우측 상단 버튼 클릭 시 전환) */
     :root[data-theme="dark"] {
       --bg-main: #0b0f19;
       --bg-sub: #111827;
-      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card: #1e293b;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --border-color: rgba(255, 255, 255, 0.1);
       --primary: #6366f1;
-      --primary-glow: rgba(99, 102, 241, 0.35);
+      --primary-glow: rgba(99, 102, 241, 0.25);
       --accent: #38bdf8;
       --success: #10b981;
-      --insta: #e1306c;
-      --nav-bg: rgba(11, 15, 25, 0.85);
-    }
-
-    :root[data-theme="light"] {
-      --bg-main: #f8fafc;
-      --bg-sub: #f1f5f9;
-      --bg-card: rgba(255, 255, 255, 0.9);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --border-color: rgba(15, 23, 42, 0.1);
-      --primary: #4f46e5;
-      --primary-glow: rgba(79, 70, 229, 0.2);
-      --accent: #0284c7;
-      --success: #059669;
-      --insta: #c13584;
-      --nav-bg: rgba(248, 250, 252, 0.85);
+      --insta: #f43f5e;
+      --nav-bg: rgba(11, 15, 25, 0.88);
+      --shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -88,7 +92,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--primary));
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -108,26 +112,33 @@
     }
 
     .nav-menu a:hover {
-      color: var(--accent);
+      color: var(--primary);
     }
 
     .theme-btn {
-      background: var(--bg-card);
+      background: var(--bg-sub);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 8px 14px;
+      padding: 8px 16px;
       border-radius: 999px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: 0.2s;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--primary);
     }
 
     /* Hero */
     .hero {
       padding: 150px 0 90px;
       text-align: center;
+      background: radial-gradient(circle at top, var(--primary-glow), transparent 60%);
     }
 
     .hero-badge {
@@ -136,23 +147,24 @@
       gap: 8px;
       padding: 6px 16px;
       background: var(--primary-glow);
-      border: 1px solid var(--primary);
+      border: 1px solid rgba(79, 70, 229, 0.3);
       border-radius: 999px;
-      color: var(--accent);
+      color: var(--primary);
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 24px;
     }
 
     .hero h1 {
       font-size: 3rem;
       font-weight: 800;
-      line-height: 1.25;
+      line-height: 1.28;
       margin-bottom: 20px;
+      color: var(--text-main);
     }
 
     .gradient-text {
-      background: linear-gradient(135deg, #38bdf8, #818cf8, #e879f9);
+      background: linear-gradient(135deg, #4f46e5, #0284c7, #db2777);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -178,7 +190,7 @@
       border-radius: 10px;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 8px 20px var(--primary-glow);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
       border: none;
       cursor: pointer;
       transition: 0.2s;
@@ -186,6 +198,7 @@
 
     .btn-primary:hover {
       transform: translateY(-2px);
+      background: #4338ca;
     }
 
     .btn-outline {
@@ -196,6 +209,12 @@
       font-weight: 600;
       text-decoration: none;
       border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
     }
 
     /* Sections */
@@ -208,9 +227,9 @@
     }
 
     .section-tag {
-      color: var(--accent);
+      color: var(--primary);
       font-size: 0.85rem;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       display: block;
@@ -236,10 +255,10 @@
 
     .card {
       background: var(--bg-card);
-      backdrop-filter: blur(10px);
       border: 1px solid var(--border-color);
       border-radius: 16px;
       padding: 28px;
+      box-shadow: var(--shadow);
       transition: transform 0.25s, border-color 0.25s;
     }
 
@@ -253,7 +272,7 @@
       height: 48px;
       border-radius: 12px;
       background: var(--primary-glow);
-      color: var(--accent);
+      color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -273,16 +292,16 @@
 
     /* Demo Wrapper */
     .demo-wrapper {
-      background: var(--bg-sub);
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow);
     }
 
     .demo-tabs {
       display: flex;
-      background: var(--bg-card);
+      background: var(--bg-sub);
       border-bottom: 1px solid var(--border-color);
       padding: 0 20px;
       overflow-x: auto;
@@ -301,11 +320,13 @@
       align-items: center;
       gap: 8px;
       white-space: nowrap;
+      transition: 0.2s;
     }
 
     .demo-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--bg-card);
     }
 
     .demo-content {
@@ -326,7 +347,7 @@
     }
 
     .kpi-box {
-      background: var(--bg-card);
+      background: var(--bg-sub);
       padding: 20px;
       border-radius: 12px;
       border: 1px solid var(--border-color);
@@ -335,17 +356,19 @@
     .kpi-box span {
       font-size: 0.85rem;
       color: var(--text-muted);
+      font-weight: 600;
     }
 
     .kpi-box h4 {
       font-size: 1.6rem;
       margin-top: 6px;
+      color: var(--text-main);
     }
 
     .kpi-trend {
       font-size: 0.8rem;
       color: var(--success);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .search-input, .select-input {
@@ -353,7 +376,7 @@
       padding: 12px 16px;
       border-radius: 10px;
       border: 1px solid var(--border-color);
-      background: var(--bg-main);
+      background: var(--bg-sub);
       color: var(--text-main);
       font-size: 0.95rem;
     }
@@ -365,7 +388,7 @@
     }
 
     .crm-item {
-      background: var(--bg-card);
+      background: var(--bg-sub);
       border: 1px solid var(--border-color);
       padding: 18px;
       border-radius: 12px;
@@ -377,12 +400,12 @@
     }
 
     .crm-badge {
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 6px;
       font-size: 0.78rem;
       font-weight: 700;
       background: var(--primary-glow);
-      color: var(--accent);
+      color: var(--primary);
     }
 
     /* SMS & SNS Grid */
@@ -394,13 +417,14 @@
     }
 
     .phone-mockup {
-      background: #000;
-      border: 6px solid #334155;
+      background: #1e293b;
+      border: 6px solid #cbd5e1;
       border-radius: 32px;
       padding: 24px 18px;
       max-width: 350px;
       margin: 0 auto;
       color: #fff;
+      box-shadow: var(--shadow);
     }
 
     .sms-bubble {
@@ -415,19 +439,21 @@
 
     /* SNS Box */
     .insta-preview {
-      background: var(--bg-main);
+      background: var(--bg-sub);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 20px;
+      padding: 22px;
     }
 
     .hashtag-box {
       background: var(--bg-card);
+      border: 1px solid var(--border-color);
       padding: 14px;
       border-radius: 10px;
-      color: var(--accent);
+      color: var(--primary);
+      font-weight: 600;
       font-size: 0.88rem;
-      margin-top: 12px;
+      margin-top: 14px;
       line-height: 1.6;
     }
 
@@ -443,17 +469,18 @@
       border: 1px solid var(--border-color);
       border-radius: 14px;
       padding: 22px;
+      box-shadow: var(--shadow);
     }
 
     .step-card.current {
-      border-color: var(--accent);
-      box-shadow: 0 0 25px var(--primary-glow);
+      border: 2px solid var(--primary);
+      background: linear-gradient(to bottom right, var(--bg-card), var(--primary-glow));
     }
 
     .step-week {
       font-size: 0.8rem;
       font-weight: 800;
-      color: var(--accent);
+      color: var(--primary);
       margin-bottom: 6px;
       display: block;
     }
@@ -477,12 +504,14 @@
 
     .step-card ul li::before {
       content: "•";
-      color: var(--accent);
+      color: var(--primary);
       position: absolute;
       left: 0;
+      font-weight: bold;
     }
 
     footer {
+      background: var(--bg-sub);
       border-top: 1px solid var(--border-color);
       padding: 40px 0;
       text-align: center;
@@ -512,26 +541,28 @@
         <li><a href="#roadmap">개발일정(8~15주)</a></li>
       </ul>
       <button class="theme-btn" id="themeToggle">
-        <i class="fa-solid fa-moon"></i> <span>테마 전환</span>
+        <i class="fa-solid fa-moon"></i> <span>다크 모드</span>
       </button>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero container">
-    <div class="hero-badge">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> AI학과 개인 포트폴리오 프로젝트
-    </div>
-    <h1>
-      1인 미용실 고객 관리부터 SNS 마케팅까지,<br>
-      <span class="gradient-text">올인원 스마트 살롱 웹 솔루션</span>
-    </h1>
-    <p>
-      고정비 부담을 줄이고 시술 레시피 기록, 매출 차트 시각화, 예약 D-1 안내 문자, 그리고 인스타그램 등 SNS 홍보 콘텐츠 관리를 한곳에서 해결하는 맞춤형 웹 서비스입니다.
-    </p>
-    <div class="hero-btns">
-      <a href="#demo" class="btn-primary"><i class="fa-solid fa-play"></i> 핵심 기능 시뮬레이터 체험</a>
-      <a href="#roadmap" class="btn-outline"><i class="fa-solid fa-calendar-check"></i> 주차별 개발 계획</a>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> 인공지능학과 개인 포트폴리오 프로젝트
+      </div>
+      <h1>
+        1인 미용실 고객 관리부터 SNS 마케팅까지,<br>
+        <span class="gradient-text">올인원 스마트 살롱 웹 솔루션</span>
+      </h1>
+      <p>
+        매달 나가는 고정비 부담을 줄이고 시술 레시피 기록, 매출 차트 시각화, 예약 D-1 안내 문자, 그리고 인스타그램 등 SNS 홍보 콘텐츠 관리를 한곳에서 해결하는 맞춤형 웹 서비스입니다.
+      </p>
+      <div class="hero-btns">
+        <a href="#demo" class="btn-primary"><i class="fa-solid fa-play"></i> 핵심 기능 시뮬레이터 체험</a>
+        <a href="#roadmap" class="btn-outline"><i class="fa-solid fa-calendar-check"></i> 주차별 개발 계획</a>
+      </div>
     </div>
   </section>
 
@@ -605,7 +636,7 @@
             <span class="kpi-trend">인스타 릴스 연동 효과</span>
           </div>
         </div>
-        <div style="background: var(--bg-card); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color);">
+        <div style="background: var(--bg-sub); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color);">
           <canvas id="revenueChart" height="95"></canvas>
         </div>
       </div>
@@ -646,3 +677,250 @@
             <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 0.95rem;">
               네이버 예약 내역을 불러와 방문 하루 전 손님에게 안내 문자를 발송합니다. 아래 내용을 수정하면 오른쪽 미리보기가 바로 바뀝니다.
             </p>
+            <div style="display: grid; gap: 12px;">
+              <input type="text" id="smsName" class="search-input" value="박지영" oninput="updateSMS()" placeholder="고객명">
+              <input type="text" id="smsTime" class="search-input" value="내일(토) 오후 2:00" oninput="updateSMS()" placeholder="예약 일시">
+              <input type="text" id="smsMenu" class="search-input" value="레이어드컷 + 프리미엄 클리닉" oninput="updateSMS()" placeholder="시술 메뉴">
+            </div>
+          </div>
+          <div>
+            <div class="phone-mockup">
+              <div style="font-size: 0.75rem; color: #cbd5e1; text-align: center;">안내 문자 미리보기 (D-1 발송)</div>
+              <div class="sms-bubble" id="smsPreview"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: 인스타그램 & SNS 통합 관리 -->
+      <div id="tab-sns" class="demo-content">
+        <div class="two-col-grid">
+          <div>
+            <h3 style="margin-bottom: 12px;"><i class="fa-brands fa-instagram" style="color:var(--insta);"></i> SNS 시술 게시물 & 해시태그 도우미</h3>
+            <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 0.95rem;">
+              시술 사진이나 영상을 올릴 때 스타일만 선택하면 인스타그램·블로그 홍보 문구와 인기 해시태그를 자동으로 조합해 줍니다.
+            </p>
+            <label style="font-size:0.85rem; color:var(--text-muted); font-weight:600; display:block; margin-bottom:6px;">오늘 촬영한 시술 스타일 선택</label>
+            <select id="snsStyleSelect" class="select-input" onchange="updateSNS()">
+              <option value="perm">여성 레이어드 C/S컬 빌드펌 (릴스 영상)</option>
+              <option value="color">퍼스널컬러 맞춤 애쉬브라운 염색 (Before/After)</option>
+              <option value="mens">맨즈 투블럭 아이롱 다운펌 (스타일링 팁)</option>
+            </select>
+            <div style="margin-top: 16px; display:flex; gap:12px;">
+              <div class="kpi-box" style="flex:1; padding:14px;">
+                <span>이번 주 인스타 도달</span>
+                <h4 style="font-size:1.25rem;">3,420회</h4>
+              </div>
+              <div class="kpi-box" style="flex:1; padding:14px;">
+                <span>프로필 링크 예약 클릭</span>
+                <h4 style="font-size:1.25rem;">48회</h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="insta-preview">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <strong style="font-size:0.95rem;"><i class="fa-brands fa-instagram" style="color:var(--insta);"></i> 인스타그램 피드 & 캡션 미리보기</strong>
+              <span class="crm-badge">자동 생성됨</span>
+            </div>
+            <p id="snsCaption" style="font-size: 0.92rem; line-height: 1.6;"></p>
+            <div class="hashtag-box" id="snsHashtags"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 시스템 구조 -->
+  <section id="architecture" class="container">
+    <div class="section-header">
+      <span class="section-tag">System Architecture</span>
+      <h2 class="section-title">주요 기술 및 확장 구조</h2>
+      <p class="section-desc">초기 구축 비용 부담 없이 안전하게 운영할 수 있는 웹 기술 구성입니다.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>반응형 대시보드 (HTML/CSS/JS)</h3>
+        <p style="margin-top: 8px;">PC뿐만 아니라 미용실 현장의 태블릿, 스마트폰에서도 화면 깨짐 없이 차트와 고객 기록을 관리할 수 있습니다.</p>
+      </div>
+      <div class="card">
+        <h3>Supabase 보안 데이터베이스</h3>
+        <p style="margin-top: 8px;">고객 정보와 시술 사진을 안전하게 저장하며, 보안 설정(RLS)을 통해 손님은 본인의 시술 변화 사진만 열람할 수 있습니다.</p>
+      </div>
+      <div class="card">
+        <h3>외부 채널 연동 (네이버·SNS)</h3>
+        <p style="margin-top: 8px;">네이버 예약 일정 반영과 인스타그램 피드 게시물 관리 기능을 연결하여 원장님의 반복 업무를 줄여줍니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 주차별 개발 타임라인 -->
+  <section id="roadmap" class="container">
+    <div class="section-header">
+      <span class="section-tag">Development Timeline</span>
+      <h2 class="section-title">주차별 개발 일정 계획 (8주차 ~ 15주차)</h2>
+      <p class="section-desc">루브릭 평가 기준에 맞춰 단계별 목표와 보완 계획을 수립했습니다.</p>
+    </div>
+
+    <div class="roadmap-grid">
+      <div class="step-card current">
+        <span class="step-week">8주차 (현재 완료)</span>
+        <h4>기획 및 템플릿 구축</h4>
+        <ul>
+          <li>개발 목적 및 기능 정의</li>
+          <li>웹 템플릿 제작 및 초기 배포</li>
+          <li>계획수립 보고서 작성 제출</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">9 ~ 10주차</span>
+        <h4>데이터베이스 설계</h4>
+        <ul>
+          <li>Supabase 무료 DB 생성</li>
+          <li>고객·시술·예약 테이블 구성</li>
+          <li>기본 입력 화면 연결</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">11 ~ 12주차</span>
+        <h4>핵심 관리 기능 구현</h4>
+        <ul>
+          <li>시술 레시피 저장 및 검색</li>
+          <li>월별 매출 차트 시각화 연동</li>
+          <li>예약 D-1 안내 문자 화면</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">13 ~ 14주차</span>
+        <h4>피드백 보완 및 SNS 연동</h4>
+        <ul>
+          <li>1차 평가 교수님 피드백 반영</li>
+          <li>SNS 해시태그/게시물 관리 모듈</li>
+          <li>손님용 시술 포토 로그 테스트</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <span class="step-week">15주차</span>
+        <h4>최종 점검 및 제출</h4>
+        <ul>
+          <li>스마트폰/PC 화면 오류 점검</li>
+          <li>깃허브 커밋 정리 및 문서화</li>
+          <li>루브릭 자율채점 및 최종 제출</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p><strong>SalonOS Portfolio Project</strong> · 인공지능학과 개인 포트폴리오</p>
+      <p style="margin-top: 6px; font-size: 0.82rem;">Hosted on GitHub Pages | Built with HTML5, CSS3, JavaScript & Chart.js</p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. 테마 전환 (기본값: 밝은 Light 모드)
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+    themeToggle.addEventListener('click', () => {
+      const next = htmlEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', next);
+      themeToggle.innerHTML = next === 'light' 
+        ? '<i class="fa-solid fa-moon"></i> <span>다크 모드</span>' 
+        : '<i class="fa-solid fa-sun"></i> <span>밝은 모드</span>';
+    });
+
+    // 2. 탭 전환
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('.demo-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.demo-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btnEl.classList.add('active');
+    }
+
+    // 3. 고객 검색 필터
+    function filterCRM() {
+      const q = document.getElementById('crmSearch').value.toLowerCase();
+      document.querySelectorAll('.crm-item').forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    // 4. D-1 문자 미리보기
+    function updateSMS() {
+      const name = document.getElementById('smsName').value || '고객';
+      const time = document.getElementById('smsTime').value || '예약 시간';
+      const menu = document.getElementById('smsMenu').value || '시술 메뉴';
+      document.getElementById('smsPreview').innerHTML = `
+        <strong>[1인 헤어살롱 예약 D-1 안내]</strong><br><br>
+        안녕하세요, <strong>${name}</strong> 고객님! 😊<br>
+        내일 예약 일정을 안내해 드립니다.<br><br>
+        • <strong>일시:</strong> ${time}<br>
+        • <strong>시술:</strong> ${menu}<br><br>
+        1인 샵 특성상 한 타임에 한 분만 집중 케어해 드리고 있습니다. 일정 변경은 미리 연락 부탁드립니다!
+      `;
+    }
+    updateSMS();
+
+    // 5. SNS 홍보 문구 및 해시태그 자동 생성기
+    const snsData = {
+      perm: {
+        caption: "✨ 손질 편한 여신 머리 완성! 얼굴형을 자연스럽게 감싸는 사이드뱅과 풍성한 볼륨감의 #빌드펌 시술 영상입니다. 아침마다 툴툴 털어 말리기만 해도 미용실 다녀온 듯한 스타일을 유지하실 수 있어요 💇‍♀️",
+        tags: "#1인미용실 #빌드펌 #레이어드펌 #중단발펌 #c컬펌 #s컬펌 #여자머리스타일 #헤어릴스"
+      },
+      color: {
+        caption: "🍂 붉은기는 싹 잡고 투명함만 남긴 맞춤형 #애쉬브라운 염색! 손상도를 최소화하는 프리미엄 케어 레시피로 머릿결 윤기까지 함께 살려드렸습니다. 실내에서도, 자연광에서도 오묘하게 예쁜 컬러예요 ✨",
+        tags: "#애쉬브라운 #붉은기없는염색 #퍼스널컬러염색 #톤다운염색 #1인헤어샵 #염색추천 #헤어체인지"
+      },
+      mens: {
+        caption: "🔥 뜨는 옆머리와 죽는 정수리 볼륨을 한 번에 해결! 두상에 딱 맞는 #아이롱다운펌 시술입니다. 왁스 손질 없이 말리기만 해도 깔끔한 실루엣이 유지되어 바쁜 아침 출근 준비 시간이 절반으로 줄어듭니다 👍",
+        tags: "#남자다운펌 #아이롱펌 #남자머리스타일 #투블럭상고 #맨즈헤어 #1인미용실추천 #남자볼륨펌"
+      }
+    };
+
+    function updateSNS() {
+      const key = document.getElementById('snsStyleSelect').value;
+      document.getElementById('snsCaption').innerText = snsData[key].caption;
+      document.getElementById('snsHashtags').innerText = snsData[key].tags;
+    }
+    updateSNS();
+
+    // 6. 매출 차트 (밝은 배경에 맞춘 시인성 높은 컬러)
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['5월', '6월', '7월', '8월', '9월', '10월'],
+        datasets: [
+          {
+            label: '월별 매출액 (만원)',
+            data: [520, 560, 540, 610, 598, 684],
+            backgroundColor: 'rgba(79, 70, 229, 0.85)',
+            borderColor: '#4f46e5',
+            borderWidth: 1,
+            borderRadius: 6
+          },
+          {
+            label: '단골 재방문 시술 건수',
+            data: [68, 74, 71, 82, 80, 94],
+            type: 'line',
+            borderColor: '#0284c7',
+            backgroundColor: '#0284c7',
+            borderWidth: 2,
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#334155', font: { weight: '600' } } } },
+        scales: {
+          x: { ticks: { color: '#475569' }, grid: { display: false } },
+          y: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
